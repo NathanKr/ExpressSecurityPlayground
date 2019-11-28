@@ -11,11 +11,13 @@ app.use(express.json());
 const user = { email: "natankrasney@gmail.com", password: "123sae" };
 
 // --- route is protected using jwtVerifier
+// --- use e.g. postman but you must put Bearer followed by jwt token as value (key is Authorization)
+// --- in the http request
 app.get("/", jwtVerifier({secret : utils.secret}) ,(req, res) => {
   res.send("<h1>This is home page</h1>");
 });
 
-
+// --- save the jwt token and used e.g. in /
 app.post("/login", (req, res) => {
   if (utils.authenticationIsOk(req,user)) {
     res.send(utils.createToken(user));
