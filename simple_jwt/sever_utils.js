@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 function authenticationIsOk(req,user) {
     const body = req.body;
-    return body.email == user.email && body.password == user.password;
+    return (body.email == user.email) && (body.password == user.password);
   }
 
 // --- todo !!!! make secret longer
@@ -17,3 +17,4 @@ function createToken(user){
 
 module.exports.authenticationIsOk = authenticationIsOk;  
 module.exports.createToken = createToken;
+module.exports.secret = secret;
