@@ -11,13 +11,16 @@ app.use(express.json());
 const user = { email: "natankrasney@gmail.com", password: "123sae" };
 
 // --- route is protected using jwtVerifier
-// --- use e.g. postman but you must put Bearer followed by jwt token as value (key is Authorization)
-// --- in the http request
+// --- use e.g. postman but you must put Bearer followed by jwt token
+// ---  as value (key is Authorization) in the http request headers
 app.get("/", jwtVerifier({secret : utils.secret}) ,(req, res) => {
-  res.send("<h1>This is home page</h1>");
+  res.send("This is home page");
 });
 
-// --- save the jwt token and used e.g. in /
+// --- client must save the jwt token and used later e.g. in /
+// --- use e.g. postman with e.g. 
+// --- { email: "natankrasney@gmail.com", password: "123sae"}
+// --- in the request body
 app.post("/login", (req, res) => {
   if (utils.authenticationIsOk(req,user)) {
     res.send(utils.createToken(user));
@@ -26,7 +29,9 @@ app.post("/login", (req, res) => {
   }
 });
 
-// --- handles UnauthorizedError error
+// --- middleware to handle error in general and UnauthorizedError error in particular: 
+//     - wrong email \ password
+//     - token has expired
 app.use((err,req,res,next) =>{
   if(err.name == 'UnauthorizedError'){
     res.status(401).send(err.message);
