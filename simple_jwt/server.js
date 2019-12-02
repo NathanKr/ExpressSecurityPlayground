@@ -1,8 +1,10 @@
 console.log("app is loading");
 
 const express = require("express"),
-  PORT = 8080  , utils = require('./sever_utils') ,
-  jwtVerifier = require('express-jwt');
+  PORT = 8080,
+  utils = require("./sever_utils"),
+  // --- express-jwt is a middleware
+  jwtVerifier = require("express-jwt");
 const app = express();
 
 app.use(express.json());
@@ -10,33 +12,37 @@ app.use(express.json());
 // --- add register page and save in db encrypted
 const user = { email: "natankrasney@gmail.com", password: "123sae" };
 
-// --- route is protected using jwtVerifier
-// --- use e.g. postman but you must put Bearer followed by jwt token
-// ---  as value (key is Authorization) in the http request headers
-app.get("/", jwtVerifier({secret : utils.secret}) ,(req, res) => {
-  res.send("This is home page");
-});
-
 // --- client must save the jwt token and used later e.g. in /
-// --- use e.g. postman with e.g. 
+// --- use e.g. postman with e.g.
 // --- { email: "natankrasney@gmail.com", password: "123sae"}
 // --- in the request body
 app.post("/login", (req, res) => {
-  if (utils.authenticationIsOk(req,user)) {
+  if (utils.authenticationIsOk(req, user)) {
     res.send(utils.createToken(user));
   } else {
     res.sendStatus(401);
   }
 });
 
-// --- middleware to handle error in general and UnauthorizedError error in particular: 
+// --- route is protected using jwtVerifier
+// --- use e.g. postman but you must put Bearer followed by jwt token
+// ---  as value (key is Authorization) in the http request headers
+app.get("/", jwtVerifier({ secret: utils.secret }), (req, res) => {
+  // --- notice that express-jwt is a middleware which created user in req
+  console.log(req.user);
+  res.send(
+    `Welcome Logged in User . This is home page . I got this from JWT : ${req.user.userID}  . `
+  );
+});
+
+// --- middleware to handle error in general and UnauthorizedError error in particular:
 //     - wrong email \ password
 //     - token has expired
-app.use((err,req,res,next) =>{
-  if(err.name == 'UnauthorizedError'){
+app.use((err, req, res, next) => {
+  if (err.name == "UnauthorizedError") {
     res.status(401).send(err.message);
   }
-})
+});
 
 app.listen(PORT, () => {
   console.log(`listening on port : ${PORT}`);
