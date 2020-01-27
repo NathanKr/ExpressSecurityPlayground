@@ -1,0 +1,12 @@
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "email": "natankrasney@gmail.com", "password" : "123sae"
+}
+
+
+### 
+GET http://localhost:8080/meetings
+// --- TODO CHANGE !!! put after Bearer the token you got from login
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJuYXRhbmtyYXNuZXlAZ21haWwuY29tIiwiZXhwIjoxNTgwMTE1MDYyLjcwMiwiaWF0IjoxNTgwMTEzODYyfQ.u4oUJhWvD6LqOHdZySzLpvDb6bV26OT0V_mTqLL0asA
