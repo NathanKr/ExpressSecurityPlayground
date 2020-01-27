@@ -16,8 +16,8 @@ const user = { email: "natankrasney@gmail.com", password: "123sae" };
 // --- use e.g. postman with e.g.
 // --- { email: "natankrasney@gmail.com", password: "123sae"}
 // --- in the request body
-app.post("/login", (req, res) => {
-  console.log('access /login')
+app.post("/users/login", (req, res) => {
+  console.log('access /users/login')
 
   if (utils.authenticationIsOk(req, user)) {
     res.send(utils.createToken(user));
@@ -31,7 +31,10 @@ app.post("/login", (req, res) => {
 // ---  as value (key is Authorization) in the http request headers
 app.get("/meetings", jwtVerifier({ secret: utils.secret }), (req, res) => {
   // --- notice that express-jwt is a middleware which created user in req
-  console.log('access /meetings')
+  console.log('access /meetings');
+
+  // --- user key is inserted by express-jwt   
+  console.log(req.user);
   
   res.send(
     `Welcome Logged in User . This is meetings page . I got this from JWT : ${req.user.userID}  . `

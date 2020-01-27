@@ -1,4 +1,5 @@
-POST http://localhost:8080/login
+POST http://localhost:8080/users/login
+// --- this is authentication
 Content-Type: application/json
 
 {
@@ -8,5 +9,6 @@ Content-Type: application/json
 
 ### 
 GET http://localhost:8080/meetings
+// --- this is authorization
 // --- TODO CHANGE !!! put after Bearer the token you got from login
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJuYXRhbmtyYXNuZXlAZ21haWwuY29tIiwiZXhwIjoxNTgwMTE1MDYyLjcwMiwiaWF0IjoxNTgwMTEzODYyfQ.u4oUJhWvD6LqOHdZySzLpvDb6bV26OT0V_mTqLL0asA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJuYXRhbmtyYXNuZXlAZ21haWwuY29tIiwiZXhwIjoxNTgwMTIwNDA3Ljg0MiwiaWF0IjoxNTgwMTE5MjA3fQ.-w3ihder2jn25qXu4kbpyOzMzxoasbwJcXiO8LgRzNI
