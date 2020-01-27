@@ -38,14 +38,6 @@ app.get("/meetings", jwtVerifier({ secret: utils.secret }), (req, res) => {
   );
 });
 
-// --- middleware to handle error in general and UnauthorizedError error in particular:
-//     - wrong email \ password
-//     - token has expired
-app.use((err, req, res, next) => {
-  if (err.name == "UnauthorizedError") {
-    res.status(401).send(err.message);
-  }
-});
 
 app.listen(PORT, () => {
   console.log(`listening on port : ${PORT}`);
